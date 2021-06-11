@@ -25,12 +25,12 @@ template given with other defined Data files like TupleData or StringData.)
 
 Eg. 
 - LinkedList1 = A->B->C (where A, B, C are Nodes)
-- Node A is a IntData, A.data = 5
-- Node B is a StringData, B.data = "epic"
-- Node C is a StructureData, C.data = [1,2,"code"] (an array with more Nodes inside).
+- Node A is a IntData, A.data = 4
+- Node B is a StringData, B.data = "blaze"
+- Node C is a StructureData, C.data = [2,0,"it"] (an array with more Nodes inside).
 
 Thus, when we print LinkedList1, we get:
-[5, epic, [1, 2, code]]
+[4, blaze, [2, 0, it]]
 
 (Node vs Data? - The Node was created so that it could be included in any kind of
 structure, eg. a linked list or an array. All logic related to Node could have been 
