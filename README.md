@@ -18,16 +18,17 @@ Example of current implementation:
 A Node contains a Data, the Data *is a* IntData. The Node can then be put into a
 structure like a linked list or an array (or others). It gets more exciting when a 
 Data can be more than just primitive types, it can also *be* a Structure; eg. a Data 
-can be a LinkedList. This means that a Node can contain a linked list inside its Data,
+can be a LinkedList. This means that a Node can contain a linked list as its Data,
 and that same Node can belong to an Array or another LinkedList. (Data can literally
 be anything as long as the user creates proper files for that Data that follows the
 template given with other defined Data files like TupleData or StringData.)
 
-ie. 
-LinkedList1 = A->B->C (where A, B, C are Nodes)
-Node A is a IntData, A.data = 5
-Node B is a StringData, B.data = "epic"
-Node C is a StructureData, C.data = [1,2,"code"] (an array with more Nodes inside).
+Eg. 
+- LinkedList1 = A->B->C (where A, B, C are Nodes)
+- Node A is a IntData, A.data = 5
+- Node B is a StringData, B.data = "epic"
+- Node C is a StructureData, C.data = [1,2,"code"] (an array with more Nodes inside).
+
 Thus, when we print LinkedList1, we get:
 [5, epic, [1, 2, code]]
 
@@ -40,7 +41,8 @@ node (or each location in the structure). This separation improves the maintaina
 of the program, and helps with the goal of polymorphism in Data.)
 
 -> Refer to main.c for 5 base test cases.
-To test main code, in terminal, nagivate to the top folder, run this command:
+To test this code, go to terminal, clone this directory, navigate to the top folder and 
+run this command:
 - make tester
 This should compile, execute main and clean up all executables.
 If this doesn't work, run these commands:
@@ -53,4 +55,5 @@ Which will compile, then execute main, then clean up.
 To test sample code:
 - make sample
 - make clean
+
 This should compile and execute sample.c. Clean up using 2nd line.
