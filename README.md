@@ -9,14 +9,14 @@ This is a library of polymorphic components. The polymorphism in this implementa
 is the "is-a" type of polymorphism. Specifically, polymorphism is achieved through 
 function pointers held by each object. 
 
-_Note_:
+_Note_:  
 The polymorphism achieved in this implementation can be pushed one step further, 
 with the use of vtables, and the addition of "has-a" polymorphism, which would 
 introduce another layer of indirection, and would bring the implementation very close
 to what happens under the hood for polymorphism in C++ and Java. However, the current 
 state of this library only uses references to function pointers held by objects.
 
-_Example of current implementation_:
+_Example of current implementation_:  
 A Node contains a Data, the Data *is a* IntData. The Node can then be put into a
 structure like a linked list or an array (or others). It gets more exciting when a 
 Data can be more than just primitive types, it can also *be* a Structure; eg. a Data 
@@ -31,7 +31,7 @@ Eg.
 - Node B is a StringData, B.data = "blaze"
 - Node C is a StructureData, C.data = [2, 0, "it"] (an array with more Nodes inside).
 
-Thus, when we print LinkedList1, we get:
+Thus, when we print LinkedList1, we get:  
 [4->blaze->[2, 0, it]]
 
 (Node vs Data? - The Node was created so that it could be included in any kind of
@@ -42,7 +42,7 @@ that make up a data structure - and a Data - the actual information held at each
 node (or each location in the structure). This separation improves the maintainability
 of the program, and helps with the goal of polymorphism in Data.)
 
--> Refer to main.c for 5 base test cases.
+-> Refer to main.c for 5 base test cases.  
 To test this code, go to terminal, clone this directory, navigate to the top folder and 
 run this command:
 - make tester
@@ -53,7 +53,7 @@ If this doesn't work, run these commands:
 - make clean
 Which will compile, then execute main, then clean up.
 
--> Refer to sample.c for the sample code provided in Chris Wood's post.
+-> Refer to sample.c for the sample code provided in Chris Wood's post.  
 To test sample code:
 - make sample
 - make clean
