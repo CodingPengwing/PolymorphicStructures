@@ -30,7 +30,7 @@ Eg.
 - Node C is a StructureData, C.data = [2,0,"it"] (an array with more Nodes inside).
 
 Thus, when we print LinkedList1, we get:
-[4, blaze, [2, 0, it]]
+[4->blaze->[2, 0, it]]
 
 (Node vs Data? - The Node was created so that it could be included in any kind of
 structure, eg. a linked list or an array. All logic related to Node could have been 
