@@ -10,6 +10,7 @@ is the "is-a" type of polymorphism. Specifically, polymorphism is achieved throu
 function pointers held by each object. 
 
 _Note_:
+
 The polymorphism achieved in this implementation can be pushed one step further, 
 with the use of vtables, and the addition of "has-a" polymorphism, which would 
 introduce another layer of indirection, and would bring the implementation very close
@@ -17,6 +18,7 @@ to what happens under the hood for polymorphism in C++ and Java. However, the cu
 state of this library only uses references to function pointers held by objects.
 
 _Example of current implementation_:
+
 A Node contains a Data, the Data *is a* IntData. The Node can then be put into a
 structure like a linked list or an array (or others). It gets more exciting when a 
 Data can be more than just primitive types, it can also *be* a Structure; eg. a Data 
