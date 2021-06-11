@@ -27,7 +27,7 @@ Eg.
 - LinkedList1 = A->B->C (where A, B, C are Nodes)
 - Node A is a IntData, A.data = 4
 - Node B is a StringData, B.data = "blaze"
-- Node C is a StructureData, C.data = [2,0,"it"] (an array with more Nodes inside).
+- Node C is a StructureData, C.data = [2, 0, "it"] (an array with more Nodes inside).
 
 Thus, when we print LinkedList1, we get:
 [4->blaze->[2, 0, it]]
