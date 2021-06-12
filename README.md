@@ -26,8 +26,9 @@ structure like a linked list or an array (or others). It gets more exciting when
 Data can be more than just primitive types, it can also *be* a Structure; eg. a Data 
 can be a LinkedList. This means that a Node can contain a linked list as its Data,
 and that same Node can belong to an Array or another LinkedList. (Data can literally
-be anything as long as the user creates proper files for that Data that follows the
-template given with other defined Data files like TupleData or StringData.)
+be anything as long as the user creates a proper interface for the type of Data they
+want to use, following on from templates of other defined Datas like TupleData or 
+StringData.)
 
 Eg. 
 - LinkedList1 = A->B->C (where A, B, C are Nodes)
