@@ -49,7 +49,7 @@ This should compile, execute main and clean up all executables.
 If this doesn't work, run these commands:
 - make test
 - make run_test
-- make clean
+- make clean  
 Which will compile, then execute main, then clean up.
 
 -> Refer to sample.c for the sample code provided in Chris Wood's post.  
