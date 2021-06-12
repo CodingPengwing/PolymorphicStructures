@@ -9,12 +9,8 @@ tupleData_Create(int x, char *string)
     TupleData_t *data = (TupleData_t *) malloc(sizeof(TupleData_t));
     assert(data);
     data->x = x;
-    if (string) 
-    {
-        data->string = string_Create(strlen(string) + 1);
-        strncpy(data->string, string, strlen(string));
-    } 
-    else data->string = NULL;
+    if (string) data->string = string_Copy(string);
+    else data->string = string_Copy("");
     return data;
 }
 

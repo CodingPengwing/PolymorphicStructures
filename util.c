@@ -41,15 +41,18 @@ scan_line(char *line, size_t input_length)
     return EOF;
 }
 
-// Create a new string
+// Create a new copy of the given string.
 char *
-string_Create(size_t length) 
+string_Copy(char *string) 
 {
-    char *string = (char *) malloc(length*sizeof(char));
-    assert(string);
-    for (size_t i = 0; i < length; i++) 
-        string[i] = '\0';
-    return string;
+    if (string == NULL) exit_with_error("Error in string_Copy(): NULL input.");
+    size_t len = strlen(string);
+    // Malloc 1 extra byte for null byte
+    char *new_string = (char *)malloc((len+1)*sizeof(char));
+    assert(new_string);
+    strncpy(new_string, string, len);
+    new_string[len] = '\0';
+    return new_string;
 }
 
 // Free a string

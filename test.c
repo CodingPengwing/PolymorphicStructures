@@ -17,9 +17,10 @@ void test_array_2();
 void test_list_1();
 void test_list_2();
 void test_both();
+void test_crazy_nested();
 
 // Some test values
-char *string_samples[] = {"puppy", "corgi", "pug", "shiba", "golden", "kitty", "chonky", "husky", "chubby", "doge"};
+char *string_samples[] = {"puppy", "corgi", "doge", "chonk", "shiba", "hooman", "bulldog", "husky", "kitty", "pug"};
 size_t test_size = 10;
 
 int main(int argc, char const *argv[])
@@ -39,6 +40,9 @@ int main(int argc, char const *argv[])
     println("--- \n");
     println("--- DOING TEST 5: testing nested lists and arrays");
     test_both();
+    println("--- \n");
+    println("--- DOING TEST 6: testing a crazy amount of nesting");
+    test_crazy_nested();
     println("--- \n");
 
     return 0;
@@ -219,7 +223,7 @@ void test_list_2()
     // Filling the inner_list
     for (size_t i = 0; i < list_size; i++)
     {
-        TupleData_t *data = tupleData_Create(0, "inner_list_item");
+        TupleData_t *data = tupleData_Create(0, "inner_peace");
         Node_t *node = node_Create(data, TupleData_as_Node);
         list_InsertBottom(inner_list, node);
     }
@@ -296,7 +300,7 @@ void test_both()
     // Filling in the list
     for (size_t i = 0; i < test_size; i++)
     {
-        TupleData_t *data = tupleData_Create(0, "inner_list_DOGE");
+        TupleData_t *data = tupleData_Create(0, "inner_DOGE");
         Node_t *node = node_Create(data, TupleData_as_Node);
         list_InsertBottom(inner_list, node);
     }
@@ -322,4 +326,69 @@ void test_both()
 
     // Freedom is really good for the world. Recursively free our objects.
     structure_Free(structure_1);
+}
+
+// Insane nesting, 9 levels of depth, with base object at the bottom
+void test_crazy_nested() 
+{
+    StringData_t *base_data = stringData_Create(" Much wow, such cool ");
+    Node_t *base_node = node_Create(base_data, StringData_as_Node);
+
+    // Nest structures
+    // I do realize there is quite a bit of code here for initialising a Node that 
+    // contains a data structure. I may create functions for this in the future.
+    Array_t *struct1 = array_Create(1);
+    array_InsertNext(struct1, base_node);
+    Structure_t *wrapper1 = structure_Create(struct1, Array_as_Structure);
+    StructureData_t *data1 = structureData_Create(wrapper1);
+    Node_t *node1 = node_Create(data1, StructureData_as_Node);
+
+    List_t *struct2 = list_Create();
+    list_InsertTop(struct2, node1);
+    Structure_t *wrapper2 = structure_Create(struct2, List_as_Structure);
+    StructureData_t *data2 = structureData_Create(wrapper2);
+    Node_t *node2 = node_Create(data2, StructureData_as_Node);
+
+    Array_t *struct3 = array_Create(1);
+    array_InsertNext(struct3, node2);
+    Structure_t *wrapper3 = structure_Create(struct3, Array_as_Structure);
+    StructureData_t *data3 = structureData_Create(wrapper3);
+    Node_t *node3 = node_Create(data3, StructureData_as_Node);
+    
+    List_t *struct4 = list_Create();
+    list_InsertTop(struct4, node3);
+    Structure_t *wrapper4 = structure_Create(struct4, List_as_Structure);
+    StructureData_t *data4 = structureData_Create(wrapper4);
+    Node_t *node4 = node_Create(data4, StructureData_as_Node);
+
+    Array_t *struct5 = array_Create(1);
+    array_InsertNext(struct5, node4);
+    Structure_t *wrapper5 = structure_Create(struct5, Array_as_Structure);
+    StructureData_t *data5 = structureData_Create(wrapper5);
+    Node_t *node5 = node_Create(data5, StructureData_as_Node);
+
+    List_t *struct6 = list_Create();
+    list_InsertTop(struct6, node5);
+    Structure_t *wrapper6 = structure_Create(struct6, List_as_Structure);
+    StructureData_t *data6 = structureData_Create(wrapper6);
+    Node_t *node6 = node_Create(data6, StructureData_as_Node);
+
+    Array_t *struct7 = array_Create(1);
+    array_InsertNext(struct7, node6);
+    Structure_t *wrapper7 = structure_Create(struct7, Array_as_Structure);
+    StructureData_t *data7 = structureData_Create(wrapper7);
+    Node_t *node7 = node_Create(data7, StructureData_as_Node);
+
+    List_t *struct8 = list_Create();
+    list_InsertTop(struct8, node7);
+    Structure_t *wrapper8 = structure_Create(struct8, List_as_Structure);
+    StructureData_t *data8 = structureData_Create(wrapper8);
+    Node_t *node8 = node_Create(data8, StructureData_as_Node);
+
+    // Recursively print everything inside this Node
+    node_Print(node8);
+    println("");
+    fflush(stdout);
+    // Recursively free everything, since freedom is the key to happiness.
+    node_Free(node8);
 }

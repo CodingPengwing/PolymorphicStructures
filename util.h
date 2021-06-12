@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 
 #ifndef UTIL_H
 #define UTIL_H
@@ -23,7 +24,7 @@ scan_line(char *line, size_t input_length);
 
 // Create a new string
 char *
-string_Create(size_t length);
+string_Copy(char *string);
 
 // Free a string
 void 
