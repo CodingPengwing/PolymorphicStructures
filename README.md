@@ -5,9 +5,13 @@ on polymorphism in C:
 
 _(Test instructions at the bottom)_
 
-This is a library of polymorphic components. The polymorphism in this implementation
-is the "is-a" type of polymorphism. Specifically, polymorphism is achieved through 
-function pointers held by each object. 
+This is a library of polymorphic components. I took upon myself the challenge of 
+creating polymorphism in a non-object-oriented (and infamously hedious) language in
+order to understand how polymorphism works under the hood. The polymorphism in this 
+implementation is the "is-a" type of polymorphism. Specifically, polymorphism is 
+achieved through the use of interfaces held by objects, where each interface contains 
+function pointers that define the behaviour of that object. Interfaces are created
+specifically for each new data type.
 
 _Note_:  
 The polymorphism achieved in this implementation can be pushed one step further, 
