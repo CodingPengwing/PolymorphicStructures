@@ -44,7 +44,7 @@ of the program, and helps with the goal of polymorphism in Data.)
 -> Refer to main.c for 5 base test cases.  
 To test this code, go to terminal, clone this directory, navigate to the top folder and 
 run this command:
-- make tester
+- make tester  
 This should compile, execute main and clean up all executables.
 If this doesn't work, run these commands:
 - make test
