@@ -5,20 +5,22 @@ on polymorphism in C:
 
 _(Test instructions at the bottom)_
 
+_Introduction_:  
 This is a library of polymorphic components. I took upon myself the challenge of 
 creating polymorphism in a non-object-oriented (and infamously hedious) language in
 order to understand how polymorphism works under the hood. The polymorphism in this 
-implementation is the "is-a" type of polymorphism. Specifically, polymorphism is 
-achieved through the use of interfaces held by objects, where each interface contains 
-function pointers that define the behaviour of that object. Interfaces are created
-specifically for each new data type.
+implementation is the "is-a" type of polymorphism (inheritance). Specifically, 
+polymorphism is achieved through the use of interfaces held by objects, where each 
+interface contains function pointers that define the behaviour of that object. 
+Interfaces are created specifically for each new data type. This is an example of 
+static (or compile-time) polymorphism.
 
 _Note_:  
-The polymorphism achieved in this implementation can be pushed one step further, 
-with the use of vtables, and the addition of "has-a" polymorphism, which would 
-introduce another layer of indirection, and would bring the implementation very close
-to what happens under the hood for polymorphism in C++ and Java. However, the current 
-state of this library only uses references to function pointers held by objects.
+The polymorphism achieved in the current implementation can be pushed one step further 
+with the use of vtables and the addition of "has-a" polymorphism (composition); which 
+would introduce another layer of indirection, and would bring the implementation very 
+close to what actually happens under the hood for polymorphism in C++ and Java. This
+would be an example of dynamic (or runtime) polymorphism.
 
 _Example of current implementation_:  
 A Node contains a Data, the Data *is a* IntData. The Node can then be put into a
@@ -38,13 +40,26 @@ Eg.
 
 Thus, when we print LinkedList1, we get:  [4->blaze->[2, 0, it]]
 
-(Node vs Data? - The Node was created so that it could be included in any kind of
-structure, eg. a linked list or an array. All logic related to Node could have been 
-associated with Data instead, and Node would no longer be needed in the program. 
-However, this abstraction aims to separate the responsibilities of a Node - objects 
-that make up a data structure - and a Data - the actual information held at each 
-node (or each location in the structure). This separation improves the maintainability
-of the program, and helps with the goal of polymorphism in Data.)
+_Node vs Data?_  
+The Node was created so that it could be included in any kind of structure, eg. a
+linked list or an array. All logic related to Node could have been associated with Data 
+instead, and Node would no longer be needed in the program. However, this abstraction 
+aims to separate the responsibilities of a Node - objects that make up a data structure - 
+and a Data - the actual information held at each Node (or each location in the structure). 
+This separation improves the adaptability and maintainability of the program, and helps 
+with the goal of polymorphism in Data.
+
+_Potential future directions_:
+As of current, the code only supports two data structures: linked lists and arrays.
+However, the code is modular enough that any data structure from the 
+[SimpleDataStructures](https://github.com/CodingPengwing/SimpleDataStructures)
+libraries or other libraries can be adapted, given a proper interface is created for it 
+(following on from the given templates of LinkedList or Array) and the data structure is
+altered to contain Nodes at each of its positions (for the purpose of nesting data). 
+But for the main goal of achieving polymorphism, I've happily stopped at the current 
+two data structures.
+
+**Test instructions**
 
 -> Refer to main.c for 5 base test cases.  
 To test this code, go to terminal, clone this directory, navigate to the top folder and 
