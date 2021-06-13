@@ -1,4 +1,4 @@
-* data_types *
+# data_types #
 
 The files in this folder define the data types that are usable in the program.
 The user can create a new data type and use it with the framework provided. As
