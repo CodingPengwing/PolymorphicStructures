@@ -1,7 +1,6 @@
 
 #include "List.h"
 
-#include "Array.h"
 #include "../util.h"
 
 // Create a new empty List and return a pointer to it
@@ -192,34 +191,32 @@ list_Sort(List_t *list)
     // If List has fewer than 2 elements there's no need to sort
     if (list->size <= 1) return;
 
-    // Use the sorting functionality of Array to sort a List.
-    // Create an Array of the same size as our List.
-    Array_t *array = array_Create(list->size);
-    // Fill the Array with the current List components    
+    // Use the sorting functionality of an array to sort a List.
+    // Create an Node array of the same size as our List.
+    Node_t* array[list->size];
+
+    // Fill the Array with the current List components
     Node_t *current = list->top;
     for (size_t i = 0; i < list->size; i++)
     {
-        array_Insert(array, current, i);
+        array[i] = current;
         current = current->right;
     }
-    // Sort the nodes
-    array_Sort(array);
+
+    // Sort the Nodes
+    qsort(array, list->size, sizeof(*array), (int (*)(const void *, const void *))node_p_Compare);
+
     // Link the Nodes back together in the new order
     for (size_t i = 0; i < list->size - 1; i++)
     {
-        array->nodeArray[i]->right = array->nodeArray[i+1];
-        array->nodeArray[i+1]->left = array->nodeArray[i];
+        array[i]->right = array[i+1];
+        array[i+1]->left = array[i];
     }
     // Make the start and end NULL.
-    array->nodeArray[0]->left = array->nodeArray[list->size-1]->right = NULL;
+    array[0]->left = array[list->size-1]->right = NULL;
     // Put the Nodes back into the List
-    list->top = array->nodeArray[0];
-    list->bottom = array->nodeArray[list->size-1];
-
-    // Remove all the pointers inside the nodeArray so we can free the Array,
-    // otherwise, the free operation would recursively free all the Nodes as well.
-    for (size_t i = 0; i < list->size; i++) array->nodeArray[i] = NULL;
-    array_Free(array);
+    list->top = array[0];
+    list->bottom = array[list->size-1];
 }
 
 // Check to see if List contains this Data

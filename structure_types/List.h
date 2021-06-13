@@ -57,7 +57,8 @@ list_Free(List_t *list);
 void 
 list_Reverse(List_t *list);
 
-// Sort the List
+// Sort the List. Warning: This would only work if all Nodes inside
+// the List contain the same type of Data.
 void
 list_Sort(List_t *list);
 

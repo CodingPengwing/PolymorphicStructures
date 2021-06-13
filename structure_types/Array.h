@@ -25,6 +25,8 @@ array_Create(size_t array_size);
 void
 array_Print(Array_t *array);
 
+// Sort the Array. Warning: This would only work if all Nodes inside
+// the Array contain the same type of Data.
 void
 array_Sort(Array_t *array);
 
