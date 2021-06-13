@@ -8,7 +8,6 @@
 #include <assert.h>
 
 #include "../Node.h"
-#include "../Structure.h"
 #include "../util.h"
 
 #ifndef LIST_H
