@@ -1,7 +1,8 @@
 
 #include "List.h"
-#include "Array.h"
 
+#include "Array.h"
+#include "../util.h"
 
 // Create a new empty List and return a pointer to it
 List_t *
@@ -183,14 +184,15 @@ list_Reverse(List_t *list)
     list->bottom = tmp;
 }
 
-// Use the sorting functionality of Array to sort a List.
+// Sort the List
 void
 list_Sort(List_t *list)
 {
     // If List has fewer than 2 elements there's no need to sort
     if (list->size <= 1) return;
 
-    // Create an Array of the same size as our List, this will help us sort
+    // Use the sorting functionality of Array to sort a List.
+    // Create an Array of the same size as our List.
     Array_t *array = array_Create(list->size);
     // Fill the Array with the current List components    
     Node_t *current = list->top;

@@ -8,7 +8,6 @@
 #include <assert.h>
 
 #include "../Node.h"
-#include "../util.h"
 
 #ifndef LIST_H
 #define LIST_H
@@ -58,22 +57,13 @@ list_Free(List_t *list);
 void 
 list_Reverse(List_t *list);
 
-// Move all values that are bigger than the pivot to the bottom of the List
-void 
-list_Sift(List_t *list, void *pivot);
-
-// This is a O(n^2) implementation of sorting, the code is quite short but the
-// computation are quite taxing. It might be better to just copy all the elements 
-// into an array, sort them using the standard qsort() function, and then copy back
-// into the List. The user can explore the Array package to see how an array of Data 
-// can be easily created and sorted.
+// Sort the List
 void
 list_Sort(List_t *list);
 
 // Check to see if List contains this Data
 bool 
 list_Contains(List_t *list, Node_t *node);
-
 
 static NodeInterface_t *NodeInterface_List = &(NodeInterface_t) {
     .Print = (void (*)(void *)) list_Print,
