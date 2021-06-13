@@ -30,6 +30,10 @@ node_Print(Node_t *node);
 int
 node_Compare(Node_t *node1, Node_t *node2);
 
+// Used for arrays for Node, useful with qsort()
+int
+node_p_Compare(Node_t **node1, Node_t **node2);
+
 void
 node_Free(Node_t *node);
 

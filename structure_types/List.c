@@ -184,7 +184,8 @@ list_Reverse(List_t *list)
     list->bottom = tmp;
 }
 
-// Sort the List
+// Sort the List. Warning: This would only work if all Nodes inside
+// the List contain the same type of Data.
 void
 list_Sort(List_t *list)
 {

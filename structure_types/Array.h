@@ -25,9 +25,6 @@ array_Create(size_t array_size);
 void
 array_Print(Array_t *array);
 
-int
-node_Sort(Node_t **node1, Node_t **node2);
-
 void
 array_Sort(Array_t *array);
 

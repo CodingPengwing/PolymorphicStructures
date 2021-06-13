@@ -19,14 +19,21 @@ node_Compare(Node_t *node1, Node_t *node2)
     return node1->interface->Compare(node1->data, node2->data);
 }
 
+int
+node_p_Compare(Node_t **node1, Node_t **node2)
+{
+    return node_Compare(*node1, *node2);
+}
+
 void
 node_Free(Node_t *node)
 {
-    // node_Print(node);printf("\n");fflush(stdout);
-    node->interface->Free(node->data);
-    node->data = NULL;
+    if (node->data) 
+    {
+        node->interface->Free(node->data);
+        node->data = NULL;
+    }
     free(node);
-    // printf("freed\n");fflush(stdout);
 }
 
 Node_t *

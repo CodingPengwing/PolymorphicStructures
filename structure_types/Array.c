@@ -20,19 +20,13 @@ array_Print(Array_t *array)
     printf("]");
 }
 
-int
-node_Sort(Node_t **node1, Node_t **node2)
-{
-    return node_Compare(*node1, *node2);
-}
-
 void
 array_Sort(Array_t *array)
 {
     NodeArray nodeArray = array->nodeArray;
     size_t array_size = array->size;
 
-    qsort(nodeArray, array_size, sizeof(*nodeArray), (int (*)(const void *, const void *))node_Sort);
+    qsort(nodeArray, array_size, sizeof(*nodeArray), (int (*)(const void *, const void *))node_p_Compare);
 }
 
 void
