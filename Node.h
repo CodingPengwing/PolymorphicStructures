@@ -10,6 +10,7 @@
 typedef struct node_interface {
     void (*Print)(void *data);
     int (*Compare)(void *data1, void *data2);
+    void (*Sort)(void *data);
     void (*Free)(void *data);
 } NodeInterface_t;
 
@@ -36,6 +37,6 @@ Node_t *
 node_Create(void *data, NodeInterface_t *interface);
 
 void 
-node_Swap_Data(Node_t *node_1, Node_t *node_2);
+node_Swap_Data(Node_t *node1, Node_t *node2);
 
 #endif

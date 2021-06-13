@@ -1,10 +1,8 @@
 
 #include "Node.h"
-#include "Structure.h"
 
 #include "data_types/IntData.h"
 #include "data_types/StringData.h"
-#include "data_types/StructureData.h"
 #include "data_types/FloatData.h"
 #include "data_types/TupleData.h"
 
@@ -86,9 +84,6 @@ void test_array_1()
         array_Insert(array, floatNode, i+6);
     }
     // Notice how we left the last index empty, only filled indices 0->8
-    
-    // Make a structures to hold this array
-    Structure_t *structure_1 = structure_Create(array, StructureInterface_Array);
 
     // Can only sort if data type is the same, we have different types of Data in here
     // so sorting wouldn't work.
@@ -96,100 +91,80 @@ void test_array_1()
 
     // Let's see what we got. It shuold be an Array with random values in it and an empty slot
     // at the end.
-    structure_Print(structure_1);
+    array_Print(array);
     println("");;
 
     // Freedom is fundamental. Recursively free our objects.
-    structure_Free(structure_1);
+    array_Free(array);
     array = NULL;
-    structure_1 = NULL;
 }
 
 
 
 // 2nd test incoming! This one is not for the faint-hearted...
-// We're going to make the same array as test 1, however, we're going to put that inside another array.
-// This test is for testing nested arrays.
+// We're going to make 2 Arrays and put them inside another Array.
+// This test is for testing nested Arrays.
 void test_array_2()
 {   
-    // This first half is the same as test 1, just creating an array
-    /*-----------------------------------------------------------------------------*/
+    /* --- Create 2 random Arrays --- */
     size_t array_size = test_size;
 
-    // Here are our arrays, initially malloced to array_size but empty
-    Array_t *array = array_Create(array_size);
+    // Here are our Arrays, initially malloced to array_size but empty
+    Array_t *int_array = array_Create(array_size);
     Array_t *string_array = array_Create(array_size);
     // Let's get some values into our arrays structures
     for (size_t i = 0; i < array_size; i++)
     {
-        // Filling out the int array in reverse
+        // Filling out the int array
         IntData_t *intData = intData_Create(array_size - i - 1);
         Node_t *intNode = node_Create(intData, NodeInterface_IntData);
-
-        array_Insert(array, intNode, i);
+        array_Insert(int_array, intNode, i);
 
         // Filling out the string array
         StringData_t *stringData = stringData_Create(string_samples[i]);
         Node_t *stringNode = node_Create(stringData, NodeInterface_StringData);
         array_Insert(string_array, stringNode, i);
     }
-    
-    // Make some structures to hold these arrays
-    Structure_t *structure_1 = structure_Create(array, StructureInterface_Array);
-    Structure_t *structure_2 = structure_Create(string_array, StructureInterface_Array);
 
-    // NEW CONTENT
-    /*-----------------------------------------------------------------------------*/
+    /* --- Put those 2 Arrays inside another Array --- */
 
-    // Here's the fun part, let's nest our structures in one another
+    // Here's the fun part, let's put both our arrays inside another Array
 
-    // Encapsulate the previous structures inside pieces of Datas
-    StructureData_t *structureData_1 = structureData_Create(structure_1);
-    StructureData_t *structureData_2 = structureData_Create(structure_2);
+    // Put int_array into a Node
+    Node_t *structNode_1 = node_Create(int_array, NodeInterface_Array);
+    // Put string_array into a Node
+    Node_t *structNode_2 = node_Create(string_array, NodeInterface_Array);
 
-    // Put those Datas into Nodes
-    Node_t *structNode_1 = node_Create(structureData_1, NodeInterface_StructureData);
-    Node_t *structNode_2 = node_Create(structureData_2, NodeInterface_StructureData);
-
-    // Make a root Array Structure
+    // Make another Array to contain them both
     Array_t *root_array = array_Create(array_size);
+    // Put those two Array Nodes into the back of our root Array
+    array_Insert(root_array, structNode_1, 8);
+    array_Insert(root_array, structNode_2, 9);
 
-    // Fill it up half-arsedly
+    // Fill the front of the root Array with some random Data as well
     for (size_t i = 0; i < 2; i++)
-    {
+    {   // int data
         IntData_t *intData = intData_Create(i);
         Node_t *intNode = node_Create(intData, NodeInterface_IntData);
         array_Insert(root_array, intNode, i);
     }
     for (size_t i = 2; i < 5; i++)
-    {
+    {   // string data
         StringData_t *stringData = stringData_Create(string_samples[i]);
         Node_t *stringNode = node_Create(stringData, NodeInterface_StringData);
         array_Insert(root_array, stringNode, i);   
     }
-    
-    // Put those Array Structure Nodes into our root Array Structure
-    array_Insert(root_array, structNode_1, 8);
-    array_Insert(root_array, structNode_2, 9);
-    // Notice how we even left some spots empty in the root array (indexes 5 - 7)
-
-    // Put the root array structure into a structure instance
-    Structure_t *weirdStructure = structure_Create(root_array, StructureInterface_Array);
-
-    // We can even go ahead and turn this weirdStructure into a Data like the previous ones.
-    // Then we can go further and put it inside a Node as well if we like.
-    // We would do that if we want to nest this weirdStructure yet again in another structure.
-    // The nesting possibilities are infinite... if your RAM stick can handle it.
-    // But for the purpose of this test, we will stop here.
+    // Notice how we even left some spots empty in the root Array (indexes 5 - 7)
 
     // And voila! Let's see what we got. It should be an array containing some random values at
-    // the start, some empty nodes in the middle, and another array at the end.
-    structure_Print(weirdStructure);
+    // the start, some empty nodes in the middle, and two other arrays at the end of itself.
+    array_Print(root_array);
     println("");
 
-    // Don't forget freedom is a right. Recursively free everything held under weirdStructure.
-    structure_Free(weirdStructure);
+    // Don't forget freedom is a right. Recursively free everything held under root_array.
+    array_Free(root_array);
 }
+
 
 // Now, test number 3. This test is for testing polymorphic linked lists.
 void test_list_1()
@@ -204,24 +179,22 @@ void test_list_1()
         Node_t *node = node_Create(data, NodeInterface_TupleData);
         list_InsertBottom(list, node);
     }
-    
-    // Make a structure to hold this list
-    Structure_t *structure_1 = structure_Create(list, StructureInterface_List);
 
     // Show our original list
     println("Original list:");
-    structure_Print(structure_1);
+    list_Print(list);
     println("");
 
     // Sort the list and show it
     println("Sorted list:");
-    structure_Sort(structure_1);
-    structure_Print(structure_1);
+    list_Sort(list);
+    list_Print(list);
     println("");
 
     // I repeat, freedom is a right. Recursively free our objects.
-    structure_Free(structure_1);
+    list_Free(list);
 }
+
 
 // This is test number 4, and we are creating a list, then putting it inside another list.
 // This is similar to test number 2, but with Lists instead of Arrays.
@@ -229,7 +202,6 @@ void test_list_1()
 void test_list_2()
 {
     size_t list_size = test_size;
-
     // Create a list, which will be stored inside another list.
     List_t *inner_list = list_Create();
     // Filling the inner_list
@@ -241,42 +213,37 @@ void test_list_2()
     }
 
     // This will be our outer list, containing the inner_list
-    List_t *list = list_Create();
+    List_t *outer_list = list_Create();
     // Filling the outer list
     for (size_t i = 0; i < list_size; i++)
     {
         TupleData_t *data = tupleData_Create(i, string_samples[i]);
         Node_t *node = node_Create(data, NodeInterface_TupleData);
-        list_InsertBottom(list, node);
+        list_InsertBottom(outer_list, node);
     }
 
-    // Make a structure to hold the inner_list
-    Structure_t *inner_structure = structure_Create(inner_list, StructureInterface_List);
-    // Encapsulate this structure as a piece of Data
-    StructureData_t *inner_list_as_data = structureData_Create(inner_structure);
-    // Store it in a Node
-    Node_t *inner_list_as_node = node_Create(inner_list_as_data, NodeInterface_StructureData);
+    // Store the inner_lise in a Node
+    Node_t *inner_list_node = node_Create(inner_list, NodeInterface_List);
     // Insert this Node into the bottom of the outer list
-    list_InsertBottom(list, inner_list_as_node);
+    list_InsertBottom(outer_list, inner_list_node);
     
-    // Make a structure to hold outer list
-    Structure_t *structure = structure_Create(list, StructureInterface_List);
-    
-    // Let's see what we got, should be a linked list containing some elements and another linked
-    // list
-    structure_Print(structure);
+    // Let's see what we got, should be a linked list containing some elements 
+    // and another linked list
+    list_Print(outer_list);
     println("");
 
     // Freedom is the best. Recursively free our objects.
-    structure_Free(structure);
+    list_Free(outer_list);
 }
 
-// And this test is our test number 5! We are creating a linked_list
+
+// And this test is our test number 5! We are creating a LinkedList, then 
+// putting it inside an Array
 void test_both()
 {
     size_t array_size = test_size;
-    // Here is our outer array, initially malloced to array_size but empty.
-    // This array will contain a list inside it.
+    // Here is our outer array, initially created to array_size but empty.
+    // This array will later contain a list inside it.
     Array_t *array = array_Create(array_size);
 
     // Let's get some values into our array
@@ -309,7 +276,7 @@ void test_both()
 
     // Create a list, we will put this inside the array
     List_t *inner_list = list_Create();
-    // Filling in the list
+    // Filling in the inner_list with some random Data
     for (size_t i = 0; i < test_size; i++)
     {
         TupleData_t *data = tupleData_Create(0, "inner_DOGE");
@@ -317,27 +284,20 @@ void test_both()
         list_InsertBottom(inner_list, node);
     }
 
-    // Create a Structure to store our inner_list
-    Structure_t *inner_structure = structure_Create(inner_list, StructureInterface_List);
-    // Encapsulate this structure as a piece of Data
-    StructureData_t *inner_list_as_data = structureData_Create(inner_structure);
-    // Store it in a Node
-    Node_t *inner_list_as_node = node_Create(inner_list_as_data, NodeInterface_StructureData);
+    // Store inner_list in a Node
+    Node_t *inner_list_node = node_Create(inner_list, NodeInterface_List);
     
-    // Insert the list in the last position of the array
+    // Insert the inner_list_node in the last position of the array.
     // This will leave empty slots in the middle of array
-    array_Insert(array, inner_list_as_node, array->size-1);
-
-    // Make a structure to hold this array
-    Structure_t *structure_1 = structure_Create(array, StructureInterface_Array);
+    array_Insert(array, inner_list_node, array->size-1);
 
     // Let's see what we got, it should be an array with some random items at the start,
     // some empty nodes in the middle, and a really cool linked list at the last index.
-    structure_Print(structure_1);
+    array_Print(array);
     println("");;
 
     // Freedom is really good for the world. Recursively free our objects.
-    structure_Free(structure_1);
+    array_Free(array);
 }
 
 
@@ -346,74 +306,55 @@ void test_both()
 // object at the bottom. 
 void test_crazy_nested() 
 {
+    int ARRAY_SIZE = 1;
     StringData_t *base_data = stringData_Create(" Much wow, such cool ");
     Node_t *base_node = node_Create(base_data, NodeInterface_StringData);
 
     // Nest structures
     // I do realize there is quite a bit of code here for initialising a Node that 
     // contains a data Structure, then put it into another Node. I may create 
-    // functions for this in the future.
-
-    // The alternative is mentioned in the README, where another layer of 
-    // indirection is introduced by creating vtables, which will also reduce the
-    // number of lines required to create a new Structure, or just any Data in
-    // general.
+    // functions for this in the future. Alternatively, as mentioned in the root
+    // README file, I may implement vtables, which should also decrease the 
 
     // Create the 1st Structure, put base_node inside it
-    Array_t *struct1 = array_Create(1);
+    Array_t *struct1 = array_Create(ARRAY_SIZE);
     array_InsertNext(struct1, base_node);
-    Structure_t *wrapper1 = structure_Create(struct1, StructureInterface_Array);
-    StructureData_t *data1 = structureData_Create(wrapper1);
-    Node_t *node1 = node_Create(data1, NodeInterface_StructureData);
+    Node_t *node1 = node_Create(struct1, NodeInterface_Array);
 
     // Create the 2nd Structure, put node_1 inside it
     List_t *struct2 = list_Create();
     list_InsertTop(struct2, node1);
-    Structure_t *wrapper2 = structure_Create(struct2, StructureInterface_List);
-    StructureData_t *data2 = structureData_Create(wrapper2);
-    Node_t *node2 = node_Create(data2, NodeInterface_StructureData);
+    Node_t *node2 = node_Create(struct2, NodeInterface_List);
 
     // Create the 3rd Structure, put node_2 inside it
-    Array_t *struct3 = array_Create(1);
+    Array_t *struct3 = array_Create(ARRAY_SIZE);
     array_InsertNext(struct3, node2);
-    Structure_t *wrapper3 = structure_Create(struct3, StructureInterface_Array);
-    StructureData_t *data3 = structureData_Create(wrapper3);
-    Node_t *node3 = node_Create(data3, NodeInterface_StructureData);
+    Node_t *node3 = node_Create(struct3, NodeInterface_Array);
     
     // Create the 4th Structure, put node_3 inside it
     List_t *struct4 = list_Create();
     list_InsertTop(struct4, node3);
-    Structure_t *wrapper4 = structure_Create(struct4, StructureInterface_List);
-    StructureData_t *data4 = structureData_Create(wrapper4);
-    Node_t *node4 = node_Create(data4, NodeInterface_StructureData);
+    Node_t *node4 = node_Create(struct4, NodeInterface_List);
 
     // Create the 5th Structure, put node_4 inside it
-    Array_t *struct5 = array_Create(1);
+    Array_t *struct5 = array_Create(ARRAY_SIZE);
     array_InsertNext(struct5, node4);
-    Structure_t *wrapper5 = structure_Create(struct5, StructureInterface_Array);
-    StructureData_t *data5 = structureData_Create(wrapper5);
-    Node_t *node5 = node_Create(data5, NodeInterface_StructureData);
+    Node_t *node5 = node_Create(struct5, NodeInterface_Array);
 
     // Create the 6th Structure, put node_5 inside it
     List_t *struct6 = list_Create();
     list_InsertTop(struct6, node5);
-    Structure_t *wrapper6 = structure_Create(struct6, StructureInterface_List);
-    StructureData_t *data6 = structureData_Create(wrapper6);
-    Node_t *node6 = node_Create(data6, NodeInterface_StructureData);
+    Node_t *node6 = node_Create(struct6, NodeInterface_List);
 
     // Create the 7th Structure, put node_6 inside it
-    Array_t *struct7 = array_Create(1);
+    Array_t *struct7 = array_Create(ARRAY_SIZE);
     array_InsertNext(struct7, node6);
-    Structure_t *wrapper7 = structure_Create(struct7, StructureInterface_Array);
-    StructureData_t *data7 = structureData_Create(wrapper7);
-    Node_t *node7 = node_Create(data7, NodeInterface_StructureData);
+    Node_t *node7 = node_Create(struct7, NodeInterface_Array);
 
     // Create the 8th Structure, put node_7 inside it
     List_t *struct8 = list_Create();
     list_InsertTop(struct8, node7);
-    Structure_t *wrapper8 = structure_Create(struct8, StructureInterface_List);
-    StructureData_t *data8 = structureData_Create(wrapper8);
-    Node_t *node8 = node_Create(data8, NodeInterface_StructureData);
+    Node_t *node8 = node_Create(struct8, NodeInterface_List);
 
     // Recursively print everything inside node_8, the Node that contains everything else
     node_Print(node8);

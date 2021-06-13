@@ -35,7 +35,7 @@ array_Sort(Array_t *array);
 void
 array_Free(Array_t *array);
 
-static StructureInterface_t *StructureInterface_Array = &(StructureInterface_t) {
+static NodeInterface_t *NodeInterface_Array = &(NodeInterface_t) {
     .Print = (void (*)(void *)) array_Print,
     .Sort = (void (*)(void *)) array_Sort,
     .Free = (void (*)(void *)) array_Free
