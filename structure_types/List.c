@@ -1,5 +1,6 @@
 
 #include "List.h"
+#include "Array.h"
 
 
 // Create a new empty List and return a pointer to it
@@ -182,52 +183,36 @@ list_Reverse(List_t *list)
     list->bottom = tmp;
 }
 
-// Move all values that are bigger than the pivot to the bottom of the List
-// pivot should be a Data_t
-void 
-list_Sift(List_t *list, void *pivot) 
-{
-    if (list->size <= 1) return;
-    
-    Node_t *curr = list->top;
-    Node_t *swap;
-    // Remove any Node with value > pivot, insert them at the 
-    // bottom of tmp_list
-    while (curr) 
-    {
-        if (curr->interface->Compare(curr->data, pivot) > 0) 
-        {
-            swap = curr->right;
-            // try to find the next node that is <= pivot
-            while (swap)
-            {
-                if (curr->interface->Compare(swap->data, pivot) <= 0) break;
-                else swap = swap->right;
-            }
-            // if swap is NULL, there is no more shuffling to be done
-            if (!swap) break;
-            // else swap the data of the 2 nodes
-            node_Swap_Data(curr, swap);
-        } 
-        curr = curr->right;
-    }
-}
-
-// This is a O(n^2) implementation of sorting, the code is quite short but the
-// computation are quite taxing. It might be better to just copy all the elements 
-// into an array, sort them using the standard qsort() function, and then copy back
-// into the List. The user can explore the Array package to see how an array of Data 
-// can be easily created and sorted.
+// Use the sorting functionality of Array to sort a List.
 void
 list_Sort(List_t *list)
 {
+    // Create an array of the same size as our list, this will help us sort
+    Array_t *array = array_Create(list->size);
+    // Fill the array with the current list components    
     Node_t *current = list->top;
-    while (current)
+    for (size_t i = 0; i < list->size; i++)
     {
-        // Move all elements bigger than current Data to bottom of List
-        list_Sift(list, current->data);
+        array_Insert(array, current, i);
         current = current->right;
     }
+    // Sort the nodes
+    array_Sort(array);
+    // Link the nodes back together in the new order
+    for (size_t i = 0; i < list->size - 1; i++)
+    {
+        array->nodeArray[i]->right = array->nodeArray[i+1];
+        array->nodeArray[i+1]->left = array->nodeArray[i];
+    }
+    // Make the start and end NULL.
+    array->nodeArray[0]->left = array->nodeArray[list->size-1]->right = NULL;
+    list->top = array->nodeArray[0];
+    list->bottom = array->nodeArray[list->size-1];
+
+    // Remove all the pointers inside the nodeArray so we can free the array,
+    // otherwise, the free operation would recursively free all the Nodes as well.
+    for (size_t i = 0; i < list->size; i++) array->nodeArray[i] = NULL;
+    array_Free(array);
 }
 
 // Check to see if List contains this Data
