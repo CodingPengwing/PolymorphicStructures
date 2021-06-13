@@ -20,7 +20,7 @@ intData_Compare(IntData_t *data1, IntData_t *data2);
 void
 intData_Free(IntData_t *data);
 
-static NodeInterface_t *IntData_as_Node = &(NodeInterface_t) 
+static NodeInterface_t *NodeInterface_IntData = &(NodeInterface_t) 
 {
     .Print = (void (*)(void *)) intData_Print,
     .Compare = (int (*)(void *, void *)) intData_Compare,

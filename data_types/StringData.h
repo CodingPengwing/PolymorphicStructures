@@ -23,7 +23,7 @@ stringData_Compare(StringData_t *data1, StringData_t *data2);
 void
 stringData_Free(StringData_t *data);
 
-static NodeInterface_t *StringData_as_Node = &(NodeInterface_t) 
+static NodeInterface_t *NodeInterface_StringData = &(NodeInterface_t) 
 {
     .Print = (void (*)(void *)) stringData_Print,
     .Compare = (int (*)(void *, void *)) stringData_Compare,

@@ -76,7 +76,7 @@ bool
 list_Contains(List_t *list, Node_t *node);
 
 
-static StructureInterface_t *List_as_Structure = &(StructureInterface_t) {
+static StructureInterface_t *StructureInterface_List = &(StructureInterface_t) {
     .Print = (void (*)(void *)) list_Print,
     .Sort = (void (*)(void *)) list_Sort,
     .Free = (void (*)(void *)) list_Free

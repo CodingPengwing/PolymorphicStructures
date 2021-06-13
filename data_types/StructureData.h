@@ -22,7 +22,7 @@ structureData_Sort(StructureData_t *data);
 void
 structureData_Free(StructureData_t *data);
 
-static NodeInterface_t *StructureData_as_Node = &(NodeInterface_t) {
+static NodeInterface_t *NodeInterface_StructureData = &(NodeInterface_t) {
     .Print = (void (*)(void *)) structureData_Print,
     .Free = (void (*)(void *)) structureData_Free
 };

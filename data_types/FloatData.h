@@ -20,7 +20,7 @@ floatData_Compare(FloatData_t *data1, FloatData_t *data2);
 void
 floatData_Free(FloatData_t *data);
 
-static NodeInterface_t *FloatData_as_Node = &(NodeInterface_t) 
+static NodeInterface_t *NodeInterface_FloatData = &(NodeInterface_t) 
 {
     .Print = (void (*)(void *)) floatData_Print,
     .Compare = (int (*)(void *, void *)) floatData_Compare,

@@ -62,21 +62,21 @@ void test_array_1()
     {
         // Filling ints
         IntData_t *intData = intData_Create(i);
-        Node_t *intNode = node_Create(intData, IntData_as_Node);
+        Node_t *intNode = node_Create(intData, NodeInterface_IntData);
         array_Insert(array, intNode, i);
         // Filling strings
         StringData_t *stringData = stringData_Create(string_samples[i+3]);
-        Node_t *stringNode = node_Create(stringData, StringData_as_Node);
+        Node_t *stringNode = node_Create(stringData, NodeInterface_StringData);
         array_Insert(array, stringNode, i+3);
         // Filling floats
         FloatData_t *floatData = floatData_Create(3.1415);
-        Node_t *floatNode = node_Create(floatData, FloatData_as_Node);
+        Node_t *floatNode = node_Create(floatData, NodeInterface_FloatData);
         array_Insert(array, floatNode, i+6);
     }
     // Notice how we left the last index empty, only filled indices 0->8
     
     // Make a structures to hold this array
-    Structure_t *structure_1 = structure_Create(array, Array_as_Structure);
+    Structure_t *structure_1 = structure_Create(array, StructureInterface_Array);
 
     // Can only sort if data type is the same, we have different types of Data in here
     // so sorting wouldn't work.
@@ -112,19 +112,19 @@ void test_array_2()
     {
         // Filling out the int array in reverse
         IntData_t *intData = intData_Create(array_size - i - 1);
-        Node_t *intNode = node_Create(intData, IntData_as_Node);
+        Node_t *intNode = node_Create(intData, NodeInterface_IntData);
 
         array_Insert(array, intNode, i);
 
         // Filling out the string array
         StringData_t *stringData = stringData_Create(string_samples[i]);
-        Node_t *stringNode = node_Create(stringData, StringData_as_Node);
+        Node_t *stringNode = node_Create(stringData, NodeInterface_StringData);
         array_Insert(string_array, stringNode, i);
     }
     
     // Make some structures to hold these arrays
-    Structure_t *structure_1 = structure_Create(array, Array_as_Structure);
-    Structure_t *structure_2 = structure_Create(string_array, Array_as_Structure);
+    Structure_t *structure_1 = structure_Create(array, StructureInterface_Array);
+    Structure_t *structure_2 = structure_Create(string_array, StructureInterface_Array);
 
     // NEW CONTENT
     /*-----------------------------------------------------------------------------*/
@@ -136,8 +136,8 @@ void test_array_2()
     StructureData_t *structureData_2 = structureData_Create(structure_2);
 
     // Put those Datas into Nodes
-    Node_t *structNode_1 = node_Create(structureData_1, StructureData_as_Node);
-    Node_t *structNode_2 = node_Create(structureData_2, StructureData_as_Node);
+    Node_t *structNode_1 = node_Create(structureData_1, NodeInterface_StructureData);
+    Node_t *structNode_2 = node_Create(structureData_2, NodeInterface_StructureData);
 
     // Make a root Array Structure
     Array_t *root_array = array_Create(array_size);
@@ -146,13 +146,13 @@ void test_array_2()
     for (size_t i = 0; i < 2; i++)
     {
         IntData_t *intData = intData_Create(i);
-        Node_t *intNode = node_Create(intData, IntData_as_Node);
+        Node_t *intNode = node_Create(intData, NodeInterface_IntData);
         array_Insert(root_array, intNode, i);
     }
     for (size_t i = 2; i < 5; i++)
     {
         StringData_t *stringData = stringData_Create(string_samples[i]);
-        Node_t *stringNode = node_Create(stringData, StringData_as_Node);
+        Node_t *stringNode = node_Create(stringData, NodeInterface_StringData);
         array_Insert(root_array, stringNode, i);   
     }
     
@@ -162,7 +162,7 @@ void test_array_2()
     // Notice how we even left some spots empty in the root array (indexes 5 - 7)
 
     // Put the root array structure into a structure instance
-    Structure_t *weirdStructure = structure_Create(root_array, Array_as_Structure);
+    Structure_t *weirdStructure = structure_Create(root_array, StructureInterface_Array);
 
     // We can even go ahead and turn this weirdStructure into a Data like the previous ones.
     // Then we can go further and put it inside a Node as well if we like.
@@ -189,12 +189,12 @@ void test_list_1()
     for (size_t i = 0; i < list_size; i++)
     {
         TupleData_t *data = tupleData_Create(i%2, string_samples[i]);
-        Node_t *node = node_Create(data, TupleData_as_Node);
+        Node_t *node = node_Create(data, NodeInterface_TupleData);
         list_InsertBottom(list, node);
     }
     
     // Make a structure to hold this list
-    Structure_t *structure_1 = structure_Create(list, List_as_Structure);
+    Structure_t *structure_1 = structure_Create(list, StructureInterface_List);
 
     // Show our original list
     println("Original list:");
@@ -224,7 +224,7 @@ void test_list_2()
     for (size_t i = 0; i < list_size; i++)
     {
         TupleData_t *data = tupleData_Create(0, "inner_peace");
-        Node_t *node = node_Create(data, TupleData_as_Node);
+        Node_t *node = node_Create(data, NodeInterface_TupleData);
         list_InsertBottom(inner_list, node);
     }
 
@@ -234,21 +234,21 @@ void test_list_2()
     for (size_t i = 0; i < list_size; i++)
     {
         TupleData_t *data = tupleData_Create(i, string_samples[i]);
-        Node_t *node = node_Create(data, TupleData_as_Node);
+        Node_t *node = node_Create(data, NodeInterface_TupleData);
         list_InsertBottom(list, node);
     }
 
     // Make a structure to hold the inner_list
-    Structure_t *inner_structure = structure_Create(inner_list, List_as_Structure);
+    Structure_t *inner_structure = structure_Create(inner_list, StructureInterface_List);
     // Encapsulate this structure as a piece of Data
     StructureData_t *inner_list_as_data = structureData_Create(inner_structure);
     // Store it in a Node
-    Node_t *inner_list_as_node = node_Create(inner_list_as_data, StructureData_as_Node);
+    Node_t *inner_list_as_node = node_Create(inner_list_as_data, NodeInterface_StructureData);
     // Insert this Node into the bottom of the outer list
     list_InsertBottom(list, inner_list_as_node);
     
     // Make a structure to hold outer list
-    Structure_t *structure = structure_Create(list, List_as_Structure);
+    Structure_t *structure = structure_Create(list, StructureInterface_List);
     
     // Let's see what we got, should be a linked list containing some elements and another linked
     // list
@@ -272,14 +272,14 @@ void test_both()
     for (size_t i = 0; i < 2; i++)
     {
         IntData_t *intData = intData_Create(i);
-        Node_t *intNode = node_Create(intData, IntData_as_Node);
+        Node_t *intNode = node_Create(intData, NodeInterface_IntData);
         array_Insert(array, intNode, i);
     }
     // Filling in strings
     for (size_t i = 2; i < 4; i++)
     {
         StringData_t *stringData = stringData_Create(string_samples[i]);
-        Node_t *stringNode = node_Create(stringData, StringData_as_Node);
+        Node_t *stringNode = node_Create(stringData, NodeInterface_StringData);
         array_Insert(array, stringNode, i);
     }
     // Filling in floats
@@ -287,7 +287,7 @@ void test_both()
     {
         float pi = 3.1415;
         FloatData_t *floatData = floatData_Create(pi);
-        Node_t *floatNode = node_Create(floatData, FloatData_as_Node);
+        Node_t *floatNode = node_Create(floatData, NodeInterface_FloatData);
         array_Insert(array, floatNode, i);
     }
 
@@ -301,23 +301,23 @@ void test_both()
     for (size_t i = 0; i < test_size; i++)
     {
         TupleData_t *data = tupleData_Create(0, "inner_DOGE");
-        Node_t *node = node_Create(data, TupleData_as_Node);
+        Node_t *node = node_Create(data, NodeInterface_TupleData);
         list_InsertBottom(inner_list, node);
     }
 
     // Create a Structure to store our inner_list
-    Structure_t *inner_structure = structure_Create(inner_list, List_as_Structure);
+    Structure_t *inner_structure = structure_Create(inner_list, StructureInterface_List);
     // Encapsulate this structure as a piece of Data
     StructureData_t *inner_list_as_data = structureData_Create(inner_structure);
     // Store it in a Node
-    Node_t *inner_list_as_node = node_Create(inner_list_as_data, StructureData_as_Node);
+    Node_t *inner_list_as_node = node_Create(inner_list_as_data, NodeInterface_StructureData);
     
     // Insert the list in the last position of the array
     // This will leave empty slots in the middle of array
     array_Insert(array, inner_list_as_node, array->size-1);
 
     // Make a structure to hold this array
-    Structure_t *structure_1 = structure_Create(array, Array_as_Structure);
+    Structure_t *structure_1 = structure_Create(array, StructureInterface_Array);
 
     // Let's see what we got, it should be an array with some random items at the start,
     // some empty nodes in the middle, and a really cool linked list at the last index.
@@ -328,62 +328,72 @@ void test_both()
     structure_Free(structure_1);
 }
 
-// Insane nesting, 9 levels of depth, with base object at the bottom
+
+
+// And here we got our test number 6. Insane nesting, 9 levels of depth, with base 
+// object at the bottom. 
 void test_crazy_nested() 
 {
     StringData_t *base_data = stringData_Create(" Much wow, such cool ");
-    Node_t *base_node = node_Create(base_data, StringData_as_Node);
+    Node_t *base_node = node_Create(base_data, NodeInterface_StringData);
 
     // Nest structures
     // I do realize there is quite a bit of code here for initialising a Node that 
-    // contains a data structure. I may create functions for this in the future.
+    // contains a data Structure, then put it into another Node. I may create 
+    // functions for this in the future.
+
+    // The alternative is mentioned in the README, where another layer of 
+    // indirection is introduced by creating vtables, which will also reduce the
+    // number of lines required to create a new Structure, or just any Data in
+    // general.
+
     Array_t *struct1 = array_Create(1);
     array_InsertNext(struct1, base_node);
-    Structure_t *wrapper1 = structure_Create(struct1, Array_as_Structure);
+    Structure_t *wrapper1 = structure_Create(struct1, StructureInterface_Array);
     StructureData_t *data1 = structureData_Create(wrapper1);
-    Node_t *node1 = node_Create(data1, StructureData_as_Node);
+    Node_t *node1 = node_Create(data1, NodeInterface_StructureData);
 
     List_t *struct2 = list_Create();
     list_InsertTop(struct2, node1);
-    Structure_t *wrapper2 = structure_Create(struct2, List_as_Structure);
+    Structure_t *wrapper2 = structure_Create(struct2, StructureInterface_List);
     StructureData_t *data2 = structureData_Create(wrapper2);
-    Node_t *node2 = node_Create(data2, StructureData_as_Node);
+    Node_t *node2 = node_Create(data2, NodeInterface_StructureData);
 
     Array_t *struct3 = array_Create(1);
     array_InsertNext(struct3, node2);
-    Structure_t *wrapper3 = structure_Create(struct3, Array_as_Structure);
+    Structure_t *wrapper3 = structure_Create(struct3, StructureInterface_Array);
     StructureData_t *data3 = structureData_Create(wrapper3);
-    Node_t *node3 = node_Create(data3, StructureData_as_Node);
+    Node_t *node3 = node_Create(data3, NodeInterface_StructureData);
     
     List_t *struct4 = list_Create();
     list_InsertTop(struct4, node3);
-    Structure_t *wrapper4 = structure_Create(struct4, List_as_Structure);
+    Structure_t *wrapper4 = structure_Create(struct4, StructureInterface_List);
     StructureData_t *data4 = structureData_Create(wrapper4);
-    Node_t *node4 = node_Create(data4, StructureData_as_Node);
+    Node_t *node4 = node_Create(data4, NodeInterface_StructureData);
 
     Array_t *struct5 = array_Create(1);
     array_InsertNext(struct5, node4);
-    Structure_t *wrapper5 = structure_Create(struct5, Array_as_Structure);
+    Structure_t *wrapper5 = structure_Create(struct5, StructureInterface_Array);
     StructureData_t *data5 = structureData_Create(wrapper5);
-    Node_t *node5 = node_Create(data5, StructureData_as_Node);
+    Node_t *node5 = node_Create(data5, NodeInterface_StructureData);
 
     List_t *struct6 = list_Create();
     list_InsertTop(struct6, node5);
-    Structure_t *wrapper6 = structure_Create(struct6, List_as_Structure);
+    Structure_t *wrapper6 = structure_Create(struct6, StructureInterface_List);
     StructureData_t *data6 = structureData_Create(wrapper6);
-    Node_t *node6 = node_Create(data6, StructureData_as_Node);
+    Node_t *node6 = node_Create(data6, NodeInterface_StructureData);
 
     Array_t *struct7 = array_Create(1);
     array_InsertNext(struct7, node6);
-    Structure_t *wrapper7 = structure_Create(struct7, Array_as_Structure);
+    Structure_t *wrapper7 = structure_Create(struct7, StructureInterface_Array);
     StructureData_t *data7 = structureData_Create(wrapper7);
-    Node_t *node7 = node_Create(data7, StructureData_as_Node);
+    Node_t *node7 = node_Create(data7, NodeInterface_StructureData);
 
     List_t *struct8 = list_Create();
     list_InsertTop(struct8, node7);
-    Structure_t *wrapper8 = structure_Create(struct8, List_as_Structure);
+    Structure_t *wrapper8 = structure_Create(struct8, StructureInterface_List);
     StructureData_t *data8 = structureData_Create(wrapper8);
-    Node_t *node8 = node_Create(data8, StructureData_as_Node);
+    Node_t *node8 = node_Create(data8, NodeInterface_StructureData);
 
     // Recursively print everything inside this Node
     node_Print(node8);

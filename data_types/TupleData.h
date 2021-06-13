@@ -24,7 +24,7 @@ tupleData_Compare(TupleData_t *data1, TupleData_t *data2);
 void
 tupleData_Free(TupleData_t *data);
 
-static NodeInterface_t *TupleData_as_Node = &(NodeInterface_t) 
+static NodeInterface_t *NodeInterface_TupleData = &(NodeInterface_t) 
 {
     .Print = (void (*)(void *)) tupleData_Print,
     .Compare = (int (*)(void *, void *)) tupleData_Compare,
