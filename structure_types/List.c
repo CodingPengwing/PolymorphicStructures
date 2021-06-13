@@ -187,9 +187,12 @@ list_Reverse(List_t *list)
 void
 list_Sort(List_t *list)
 {
-    // Create an array of the same size as our list, this will help us sort
+    // If List has fewer than 2 elements there's no need to sort
+    if (list->size <= 1) return;
+
+    // Create an Array of the same size as our List, this will help us sort
     Array_t *array = array_Create(list->size);
-    // Fill the array with the current list components    
+    // Fill the Array with the current List components    
     Node_t *current = list->top;
     for (size_t i = 0; i < list->size; i++)
     {
@@ -198,7 +201,7 @@ list_Sort(List_t *list)
     }
     // Sort the nodes
     array_Sort(array);
-    // Link the nodes back together in the new order
+    // Link the Nodes back together in the new order
     for (size_t i = 0; i < list->size - 1; i++)
     {
         array->nodeArray[i]->right = array->nodeArray[i+1];
@@ -206,10 +209,11 @@ list_Sort(List_t *list)
     }
     // Make the start and end NULL.
     array->nodeArray[0]->left = array->nodeArray[list->size-1]->right = NULL;
+    // Put the Nodes back into the List
     list->top = array->nodeArray[0];
     list->bottom = array->nodeArray[list->size-1];
 
-    // Remove all the pointers inside the nodeArray so we can free the array,
+    // Remove all the pointers inside the nodeArray so we can free the Array,
     // otherwise, the free operation would recursively free all the Nodes as well.
     for (size_t i = 0; i < list->size; i++) array->nodeArray[i] = NULL;
     array_Free(array);
