@@ -11,13 +11,25 @@
 #include "structure_types/Array.h"
 #include "structure_types/List.h"
 
-// Some test cases;
-void test_array_1();
-void test_array_2();
-void test_list_1();
-void test_list_2();
-void test_both();
-void test_crazy_nested();
+/*  ATTENTION: input infrastructure has not yet been created for this program,
+    therefore all test cases have been hardcoded into this file. The user can
+    look at each test case to see how different types of Data can be created.
+
+    Test 1: to test that a polymorphic array works
+    Test 2: to test that nesting arrays inside one another works
+    Test 3: to test that a polymorphic linked list works
+    Test 4: to test that nesting lists inside one another works
+    Test 5: to test that nesting a list inside an array works
+    Test 6: to test that nesting multiple depth levels works (nesting depth of 8)
+ */
+
+// The test cases:
+void test_array_1(); // Test 1
+void test_array_2(); // Test 2
+void test_list_1(); // Test 3
+void test_list_2(); // Test 4
+void test_both(); // Test 5
+void test_crazy_nested(); // Test 6
 
 // Some test values
 char *string_samples[] = {"puppy", "corgi", "doge", "chonk", "shiba", "hooman", "bulldog", "husky", "kitty", "pug"};
@@ -25,7 +37,7 @@ size_t test_size = 10;
 
 int main(int argc, char const *argv[])
 {
-    // TEST 5 SCENARIOS
+    // TEST 6 SCENARIOS
     println("--- DOING TEST 1: testing polymorphic array");
     test_array_1();
     println("--- \n");
@@ -347,58 +359,67 @@ void test_crazy_nested()
     // number of lines required to create a new Structure, or just any Data in
     // general.
 
+    // Create the 1st Structure, put base_node inside it
     Array_t *struct1 = array_Create(1);
     array_InsertNext(struct1, base_node);
     Structure_t *wrapper1 = structure_Create(struct1, StructureInterface_Array);
     StructureData_t *data1 = structureData_Create(wrapper1);
     Node_t *node1 = node_Create(data1, NodeInterface_StructureData);
 
+    // Create the 2nd Structure, put node_1 inside it
     List_t *struct2 = list_Create();
     list_InsertTop(struct2, node1);
     Structure_t *wrapper2 = structure_Create(struct2, StructureInterface_List);
     StructureData_t *data2 = structureData_Create(wrapper2);
     Node_t *node2 = node_Create(data2, NodeInterface_StructureData);
 
+    // Create the 3rd Structure, put node_2 inside it
     Array_t *struct3 = array_Create(1);
     array_InsertNext(struct3, node2);
     Structure_t *wrapper3 = structure_Create(struct3, StructureInterface_Array);
     StructureData_t *data3 = structureData_Create(wrapper3);
     Node_t *node3 = node_Create(data3, NodeInterface_StructureData);
     
+    // Create the 4th Structure, put node_3 inside it
     List_t *struct4 = list_Create();
     list_InsertTop(struct4, node3);
     Structure_t *wrapper4 = structure_Create(struct4, StructureInterface_List);
     StructureData_t *data4 = structureData_Create(wrapper4);
     Node_t *node4 = node_Create(data4, NodeInterface_StructureData);
 
+    // Create the 5th Structure, put node_4 inside it
     Array_t *struct5 = array_Create(1);
     array_InsertNext(struct5, node4);
     Structure_t *wrapper5 = structure_Create(struct5, StructureInterface_Array);
     StructureData_t *data5 = structureData_Create(wrapper5);
     Node_t *node5 = node_Create(data5, NodeInterface_StructureData);
 
+    // Create the 6th Structure, put node_5 inside it
     List_t *struct6 = list_Create();
     list_InsertTop(struct6, node5);
     Structure_t *wrapper6 = structure_Create(struct6, StructureInterface_List);
     StructureData_t *data6 = structureData_Create(wrapper6);
     Node_t *node6 = node_Create(data6, NodeInterface_StructureData);
 
+    // Create the 7th Structure, put node_6 inside it
     Array_t *struct7 = array_Create(1);
     array_InsertNext(struct7, node6);
     Structure_t *wrapper7 = structure_Create(struct7, StructureInterface_Array);
     StructureData_t *data7 = structureData_Create(wrapper7);
     Node_t *node7 = node_Create(data7, NodeInterface_StructureData);
 
+    // Create the 8th Structure, put node_7 inside it
     List_t *struct8 = list_Create();
     list_InsertTop(struct8, node7);
     Structure_t *wrapper8 = structure_Create(struct8, StructureInterface_List);
     StructureData_t *data8 = structureData_Create(wrapper8);
     Node_t *node8 = node_Create(data8, NodeInterface_StructureData);
 
-    // Recursively print everything inside this Node
+    // Recursively print everything inside node_8, the Node that contains everything else
     node_Print(node8);
     println("");
     fflush(stdout);
+
     // Recursively free everything, since freedom is the key to happiness.
     node_Free(node8);
 }
