@@ -1,4 +1,4 @@
-*structure_types*
+# structure_types #
 
 The files in this folder define the structure types that are usable in the program.
 The user can create a new structure type and use it with the framework provided. As
