@@ -9,7 +9,7 @@ DATA_C=$(wildcard data_types/*.c)
 STRUCT_C=$(wildcard structure_types/*.c)
 # OBJ - compiled source files that should be linked
 # Find all .c files and convert to their corresponding .o name
-OBJ=$(DATA_C:.c=.o) $(STRUCT_C:.c=.o) Node.o Structure.o util.o
+OBJ=$(DATA_C:.c=.o) $(STRUCT_C:.c=.o) Node.o util.o
 
 $(BIN_TEST): test.c $(OBJ)
 	$(CC) -o $@ test.c *.o $(COPT)
