@@ -15,9 +15,12 @@ A new Structure would require:
     - Update (if Structure needs to be updated)
 - An interface that allows a Structure to "know" which kind of structure it contains.
 
-_Future ideas_:
-The Structure definition and interface can actually be removed altogether and data structures can just use the Node interface as Datas do. Then there would be no need 
+_Future ideas_:  
+The Structure definition and interface can actually be removed altogether and data 
+structures can just use the Node interface as Datas do. Then there would be no need 
 to put a Structure inside a StructureData, before putting it into a Node (as of
 current implementation). However, the current implementation creates a distiction 
 between Data's and data structures. This is not a necessity for the program to work,
-it is just what I've chosen to do.
+it is just what I've chosen to do in the past. There will be an update where this 
+layer of indirection is removed, as I have now determined it to be more confusing
+than helpful.
